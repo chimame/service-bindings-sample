@@ -1,3 +1,9 @@
-name = "workers"
+name = "bindings-workers-sample"
 main = "src/index.ts"
 compatibility_date = "2022-05-13"
+
+[[unsafe.bindings]]
+name = "BindingsRemix"
+type = "service"
+service = "bindings-remix-staging"
+environment = "production"
