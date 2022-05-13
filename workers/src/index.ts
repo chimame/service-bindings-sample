@@ -9,7 +9,14 @@
  */
 
 export default {
-  async fetch(_request: Request): Promise<Response> {
-    return new Response("Hello World!");
+  async fetch(request: Request, environment): Promise<Response> {
+    return await environment.BindingsRemix.fetch(
+      request, {
+        cf: {
+          cacheTtl: 60,
+          cacheEverything: true
+        }
+      }
+    );
   },
 };
