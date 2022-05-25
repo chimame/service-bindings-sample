@@ -1,22 +1,25 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `wrangler dev src/index.ts` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `wrangler publish src/index.ts --name my-worker` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { matchCache, createCache } from './cache'
+
+type Environment = {
+  BindingsRemix: {
+    fetch(request: string | Request, requestInitr?: Request | RequestInit): Promise<Response>
+  }
+}
+
+type Context = {
+  waitUntil(promise: Promise<any>): void
+}
 
 export default {
-  async fetch(request: Request, environment): Promise<Response> {
-    return await environment.BindingsRemix.fetch(
-      request, {
-        cf: {
-          cacheTtl: 60,
-          cacheEverything: true
-        }
-      }
-    );
+  async fetch(request: Request, environment: Environment, context: Context): Promise<Response> {
+    const response = await matchCache(request)
+
+    if (response) {
+      return response
+    }
+
+    const remixResponse = await environment.BindingsRemix.fetch(request)
+    context.waitUntil(createCache(request, remixResponse))
+    return remixResponse
   },
-};
+}
