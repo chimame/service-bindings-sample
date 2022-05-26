@@ -1,0 +1,13 @@
+name = "bindings-remix-bindee"
+
+compatibility_date = "2022-05-11"
+
+account_id = ""
+workers_dev = true
+main = "./build/index.js"
+
+[site]
+bucket = "./public"
+
+[build]
+command = "DEPLOY=true BINDEE=true npm run build"
