@@ -27,4 +27,4 @@ This repository shows a sample realization using Cloudflare Workers' Service Bin
 
 The initial build size of a Remix project is not large enough to be a concern. However, as development progresses, the size will gradually increase with additional libraries and code. The default file size that can be deployed to Cloudflare Workers must be less than 1 MB. Service Bindings can also be used to solve the size limitation issue by splitting the Remix into multiple Workers.
 
-TODO: Add sample code to isolate Remix
+This repository uses [remix-service-bindings](https://github.com/aiji42/remix-service-bindings) to separate one Remix application from two Cloudflare Workers.
